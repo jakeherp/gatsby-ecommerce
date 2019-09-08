@@ -16,8 +16,27 @@ const defaultValues = {
 export const StoreContext = createContext(defaultValues)
 
 export const StoreProvider = ({ children }) => {
+  const addProductToCart = async variantId => {
+    try {
+      const newCheckout = await client.checkout.create()
+      const lineItems = [
+        {
+          variantId,
+          quantity: 1,
+        },
+      ]
+      const addItems = await client.checkout.addLineItems(
+        newCheckout.id,
+        lineItems
+      )
+      console.log(addItems)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   return (
-    <StoreContext.Provider value={defaultValues}>
+    <StoreContext.Provider value={{ ...defaultValues, addProductToCart }}>
       {children}
     </StoreContext.Provider>
   )

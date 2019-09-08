@@ -2,6 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import { useStaticQuery, graphql } from "gatsby"
 import Header from "./header"
+import { StoreProvider } from "../context/store.context"
 
 const Layout = ({ children }) => {
   const data = useStaticQuery(graphql`
@@ -15,7 +16,7 @@ const Layout = ({ children }) => {
   `)
 
   return (
-    <>
+    <StoreProvider>
       <Header siteTitle={data.site.siteMetadata.title} />
       <div style={{ display: "flex", flexDirection: "column" }}>
         <main className="section" style={{ minHeight: "90vh" }}>
@@ -30,7 +31,7 @@ const Layout = ({ children }) => {
           <a href="https://www.gatsbyjs.org">Gatsby</a>
         </footer>
       </div>
-    </>
+    </StoreProvider>
   )
 }
 

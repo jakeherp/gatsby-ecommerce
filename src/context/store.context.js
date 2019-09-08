@@ -9,6 +9,9 @@ const client = Client.buildClient({
 const defaultValues = {
   isCartOpen: false,
   cart: [],
+  checkout: {
+    lineItems: [],
+  },
   addProductToCart: () => {},
   client,
 }
@@ -16,7 +19,7 @@ const defaultValues = {
 export const StoreContext = createContext(defaultValues)
 
 export const StoreProvider = ({ children }) => {
-  const [checkout, setCheckout] = useState({})
+  const [checkout, setCheckout] = useState(defaultValues.checkout)
 
   useEffect(() => {
     initialiseCheckout()
@@ -54,18 +57,20 @@ export const StoreProvider = ({ children }) => {
           quantity: 1,
         },
       ]
-      const addItems = await client.checkout.addLineItems(
+      const newCheckout = await client.checkout.addLineItems(
         checkout.id,
         lineItems
       )
-      console.log(addItems)
+      setCheckout(newCheckout)
     } catch (err) {
       console.error(err)
     }
   }
 
   return (
-    <StoreContext.Provider value={{ ...defaultValues, addProductToCart }}>
+    <StoreContext.Provider
+      value={{ ...defaultValues, addProductToCart, checkout }}
+    >
       {children}
     </StoreContext.Provider>
   )

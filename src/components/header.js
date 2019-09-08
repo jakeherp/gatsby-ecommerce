@@ -6,7 +6,7 @@ import { StoreContext } from "../context/store.context"
 import "../style.scss"
 
 const Header = ({ siteTitle }) => {
-  const { isCartOpen, addProductToCart } = useContext(StoreContext)
+  const { isCartOpen, addProductToCart, client } = useContext(StoreContext)
 
   return (
     <header

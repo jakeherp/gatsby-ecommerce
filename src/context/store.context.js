@@ -16,7 +16,7 @@ const defaultValues = {
 export const StoreContext = createContext(defaultValues)
 
 export const StoreProvider = ({ children }) => {
-  const [checkoutId, setCheckoutId] = useState({})
+  const [checkout, setCheckout] = useState({})
 
   useEffect(() => {
     initialiseCheckout()
@@ -24,8 +24,23 @@ export const StoreProvider = ({ children }) => {
 
   const initialiseCheckout = async () => {
     try {
-      const newCheckout = await client.checkout.create()
-      setCheckoutId(newCheckout.id)
+      const isBrowser = typeof window !== undefined
+      const currentCheckoutId = isBrowser
+        ? localStorage.getItem("checkout_id")
+        : null
+
+      let newCheckout = null
+
+      if (currentCheckoutId) {
+        newCheckout = await client.checkout.fetch(currentCheckoutId)
+      } else {
+        newCheckout = await client.checkout.create()
+        if (isBrowser) {
+          localStorage.setItem("checkout_id", newCheckout.id)
+        }
+      }
+
+      setCheckout(newCheckout)
     } catch (err) {
       console.error(err)
     }
@@ -39,7 +54,10 @@ export const StoreProvider = ({ children }) => {
           quantity: 1,
         },
       ]
-      const addItems = await client.checkout.addLineItems(checkoutId, lineItems)
+      const addItems = await client.checkout.addLineItems(
+        checkout.id,
+        lineItems
+      )
       console.log(addItems)
     } catch (err) {
       console.error(err)

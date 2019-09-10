@@ -73,6 +73,18 @@ export const StoreProvider = ({ children }) => {
     }
   }
 
+  const removeProductFromCart = async variantId => {
+    try {
+      // const newCheckout = await client.checkout.addLineItems(
+      //   checkout.id,
+      //   lineItems
+      // )
+      // setCheckout(newCheckout)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   return (
     <StoreContext.Provider
       value={{

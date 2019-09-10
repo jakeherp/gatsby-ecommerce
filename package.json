@@ -1,9 +1,9 @@
 {
-  "name": "gatsby-starter-default",
+  "name": "gatsby-ecommerce",
   "private": true,
-  "description": "A simple starter to get up and developing quickly with Gatsby",
-  "version": "0.1.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "description": "A simple project to demonstrate Gatsby's ecommerce capabilities.",
+  "version": "1.0.0",
+  "author": "Jacob Herper <jacob@herper.io>",
   "dependencies": {
     "bulma": "^0.7.5",
     "gatsby": "^2.13.53",

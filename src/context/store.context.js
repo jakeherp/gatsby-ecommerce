@@ -14,6 +14,7 @@ const defaultValues = {
     lineItems: [],
   },
   addProductToCart: () => {},
+  removeProductFromCart: () => {},
   client,
 }
 
@@ -73,13 +74,12 @@ export const StoreProvider = ({ children }) => {
     }
   }
 
-  const removeProductFromCart = async variantId => {
+  const removeProductFromCart = async lineItemId => {
     try {
-      // const newCheckout = await client.checkout.addLineItems(
-      //   checkout.id,
-      //   lineItems
-      // )
-      // setCheckout(newCheckout)
+      const newCheckout = await client.checkout.removeLineItems(checkout.id, [
+        lineItemId,
+      ])
+      setCheckout(newCheckout)
     } catch (err) {
       console.error(err)
     }
@@ -90,6 +90,7 @@ export const StoreProvider = ({ children }) => {
       value={{
         ...defaultValues,
         addProductToCart,
+        removeProductFromCart,
         checkout,
         toggleCart,
         isCartOpen,

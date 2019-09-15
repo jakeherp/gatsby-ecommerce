@@ -9,9 +9,7 @@ import "../style.scss"
 import Cart from "./Cart/Cart"
 
 const Header = () => {
-  const { addProductToCart, client, isCartOpen, toggleCart } = useContext(
-    StoreContext
-  )
+  const { isCartOpen, toggleCart, checkout } = useContext(StoreContext)
   const transitions = useTransition(isCartOpen, null, {
     from: {
       transform: `translate3d(100%, 0, 0)`,
@@ -23,6 +21,9 @@ const Header = () => {
       transform: `translate3d(100%, 0, 0)`,
     },
   })
+  const quantity = checkout.lineItems.reduce((total, item) => {
+    return total + item.quantity
+  }, 0)
 
   return (
     <header
@@ -36,6 +37,22 @@ const Header = () => {
       </div>
       <div className="navbar-end">
         <div className="navbar-item">
+          {quantity > 0 && (
+            <div
+              style={{
+                color: `#fff`,
+                background: `var(--red)`,
+                borderRadius: `50%`,
+                height: `1rem`,
+                width: `1rem`,
+                lineHeight: `1rem`,
+                fontSize: `0.5rem`,
+                textAlign: `center`,
+              }}
+            >
+              {quantity}
+            </div>
+          )}
           <FaShoppingCart
             style={{ color: "white", height: 30, width: 30 }}
             onClick={toggleCart}

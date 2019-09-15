@@ -59,6 +59,11 @@ const Cart = ({ style }) => {
       ))}
       <hr />
       <p className="title is-4">Total: ${checkout.totalPrice}</p>
+      <div>
+        <a href={checkout.webUrl} className="button">
+          Go to checkout
+        </a>
+      </div>
     </animated.div>
   )
 }

@@ -32,9 +32,22 @@ export const StoreProvider = ({ children }) => {
     initialiseCheckout()
   }, [])
 
+  const isBrowser = typeof window !== undefined
+
+  const getNewId = async () => {
+    try {
+      const newCheckout = await client.checkout.create()
+      if (isBrowser) {
+        localStorage.setItem("checkout_id", newCheckout.id)
+      }
+      return newCheckout
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   const initialiseCheckout = async () => {
     try {
-      const isBrowser = typeof window !== undefined
       const currentCheckoutId = isBrowser
         ? localStorage.getItem("checkout_id")
         : null
@@ -43,11 +56,12 @@ export const StoreProvider = ({ children }) => {
 
       if (currentCheckoutId) {
         newCheckout = await client.checkout.fetch(currentCheckoutId)
-      } else {
-        newCheckout = await client.checkout.create()
-        if (isBrowser) {
-          localStorage.setItem("checkout_id", newCheckout.id)
+
+        if (newCheckout.completedAt) {
+          newCheckout = await getNewId()
         }
+      } else {
+        newCheckout = await getNewId()
       }
 
       setCheckout(newCheckout)

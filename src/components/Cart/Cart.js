@@ -1,13 +1,16 @@
-import React, { useContext } from "react"
+import React, { useContext, useState } from "react"
 import { animated } from "react-spring"
 import { StoreContext } from "../../context/store.context"
 
 const Cart = ({ style }) => {
+  const [coupon, setCoupon] = useState("")
+
   const {
     isCartOpen,
     checkout,
     toggleCart,
     removeProductFromCart,
+    checkCoupon,
   } = useContext(StoreContext)
 
   return (
@@ -59,6 +62,22 @@ const Cart = ({ style }) => {
       ))}
       <hr />
       <p className="title is-4">Total: ${checkout.totalPrice}</p>
+      <form
+        onSubmit={e => {
+          e.preventDefault()
+          checkCoupon(coupon)
+        }}
+      >
+        <div className="field">
+          <input
+            value={coupon}
+            type="text"
+            className="is-small input"
+            onChange={e => setCoupon(e.target.value)}
+          />
+          <button className="is-small button">Add coupon</button>
+        </div>
+      </form>
       <div>
         <a href={checkout.webUrl} className="button">
           Go to checkout

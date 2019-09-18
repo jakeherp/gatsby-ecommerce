@@ -11,6 +11,7 @@ const Cart = ({ style }) => {
     toggleCart,
     removeProductFromCart,
     checkCoupon,
+    removeCoupon,
   } = useContext(StoreContext)
 
   return (
@@ -62,22 +63,35 @@ const Cart = ({ style }) => {
       ))}
       <hr />
       <p className="title is-4">Total: ${checkout.totalPrice}</p>
-      <form
-        onSubmit={e => {
-          e.preventDefault()
-          checkCoupon(coupon)
-        }}
-      >
-        <div className="field">
-          <input
-            value={coupon}
-            type="text"
-            className="is-small input"
-            onChange={e => setCoupon(e.target.value)}
-          />
-          <button className="is-small button">Add coupon</button>
-        </div>
-      </form>
+      {checkout.discountApplications.length > 0 ? (
+        <p>
+          {checkout.discountApplications[0].code} (
+          {checkout.discountApplications[0].value.percentage}%)
+          <button
+            onClick={() => removeCoupon(checkout.discountApplications[0].code)}
+            className="is-small button is-danger is-outlined"
+          >
+            Remove
+          </button>
+        </p>
+      ) : (
+        <form
+          onSubmit={e => {
+            e.preventDefault()
+            checkCoupon(coupon)
+          }}
+        >
+          <div className="field">
+            <input
+              value={coupon}
+              type="text"
+              className="is-small input"
+              onChange={e => setCoupon(e.target.value)}
+            />
+            <button className="is-small button">Add coupon</button>
+          </div>
+        </form>
+      )}
       <div>
         <a href={checkout.webUrl} className="button">
           Go to checkout

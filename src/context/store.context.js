@@ -16,6 +16,7 @@ const defaultValues = {
   addProductToCart: () => {},
   removeProductFromCart: () => {},
   checkCoupon: () => {},
+  removeCoupon: () => {},
   client,
 }
 
@@ -105,6 +106,14 @@ export const StoreProvider = ({ children }) => {
     setCheckout(newCheckout)
   }
 
+  const removeCoupon = async coupon => {
+    const newCheckout = await client.checkout.removeDiscount(
+      checkout.id,
+      coupon
+    )
+    setCheckout(newCheckout)
+  }
+
   return (
     <StoreContext.Provider
       value={{
@@ -115,6 +124,7 @@ export const StoreProvider = ({ children }) => {
         toggleCart,
         isCartOpen,
         checkCoupon,
+        removeCoupon,
       }}
     >
       {children}

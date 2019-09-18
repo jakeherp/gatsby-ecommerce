@@ -3,10 +3,11 @@ import PropTypes from "prop-types"
 import React, { useContext } from "react"
 import { FaShoppingCart } from "react-icons/fa"
 import { StoreContext } from "../context/store.context"
-import { useTransition, animated } from "react-spring"
+import { useTransition } from "react-spring"
 import "../style.scss"
 
 import Cart from "./Cart/Cart"
+import Loader from "./Loader"
 
 const Header = () => {
   const { isCartOpen, toggleCart, checkout } = useContext(StoreContext)
@@ -26,43 +27,46 @@ const Header = () => {
   }, 0)
 
   return (
-    <header
-      className="navbar"
-      style={{ background: "var(--purp)", boxShadow: "var(--elevation-2)" }}
-    >
-      <div className="navbar-brand">
-        <Link to="/" className="navbar-item">
-          <h1 style={{ color: `#fff` }}>My Gatsby Store</h1>
-        </Link>
-      </div>
-      <div className="navbar-end">
-        <div className="navbar-item">
-          {quantity > 0 && (
-            <div
-              style={{
-                color: `#fff`,
-                background: `var(--red)`,
-                borderRadius: `50%`,
-                height: `1rem`,
-                width: `1rem`,
-                lineHeight: `1rem`,
-                fontSize: `0.5rem`,
-                textAlign: `center`,
-              }}
-            >
-              {quantity}
-            </div>
-          )}
-          <FaShoppingCart
-            style={{ color: "white", height: 30, width: 30 }}
-            onClick={toggleCart}
-          />
+    <React.Fragment>
+      <header
+        className="navbar"
+        style={{ background: "var(--purp)", boxShadow: "var(--elevation-2)" }}
+      >
+        <div className="navbar-brand">
+          <Link to="/" className="navbar-item">
+            <h1 style={{ color: `#fff` }}>My Gatsby Store</h1>
+          </Link>
         </div>
-      </div>
-      {transitions.map(
-        ({ item, key, props }) => item && <Cart key={key} style={props} />
-      )}
-    </header>
+        <div className="navbar-end">
+          <div className="navbar-item">
+            {quantity > 0 && (
+              <div
+                style={{
+                  color: `#fff`,
+                  background: `var(--red)`,
+                  borderRadius: `50%`,
+                  height: `1rem`,
+                  width: `1rem`,
+                  lineHeight: `1rem`,
+                  fontSize: `0.5rem`,
+                  textAlign: `center`,
+                }}
+              >
+                {quantity}
+              </div>
+            )}
+            <FaShoppingCart
+              style={{ color: "white", height: 30, width: 30 }}
+              onClick={toggleCart}
+            />
+          </div>
+        </div>
+        {transitions.map(
+          ({ item, key, props }) => item && <Cart key={key} style={props} />
+        )}
+      </header>
+      <Loader />
+    </React.Fragment>
   )
 }
 

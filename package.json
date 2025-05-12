@@ -6,7 +6,7 @@
   "author": "Jacob Herper <jacob@herper.io>",
   "dependencies": {
     "bulma": "^0.7.5",
-    "gatsby": "^2.16.2",
+    "gatsby": "^5.14.0",
     "gatsby-image": "^2.2.34",
     "gatsby-plugin-manifest": "^2.2.5",
     "gatsby-plugin-offline": "^2.2.5",
@@ -22,7 +22,7 @@
     "react-dom": "^16.8.6",
     "react-helmet": "^5.2.1",
     "react-icons": "^3.7.0",
-    "react-spring": "^8.0.27",
+    "react-spring": "^9.0.0",
     "shopify-buy": "^2.7.0"
   },
   "devDependencies": {
